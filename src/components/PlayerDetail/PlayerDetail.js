@@ -17,8 +17,8 @@ const playerDetail = props => {
   if (props.selectedPlayer) {
     modalContent = (
       <View>
-        <Image source={props.selectedPlayer.image} style={styles.placeImage}/>
-        <Text style={styles.placeName}>{props.selectedPlayer.name}</Text>
+        <Image source={props.selectedPlayer.image} style={styles.playerImage}/>
+        <Text style={styles.playerName}>{props.selectedPlayer.name}</Text>
       </View>
     );
   }
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
   modalContainer: {
       margin: 22
   },
-  placeImage: {
+  playerImage: {
     width: "100%",
     height: 200
   },
-  placeName: {
+  playerName: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 28

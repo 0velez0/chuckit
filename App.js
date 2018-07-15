@@ -1,84 +1,53 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
+import { connect } from 'react-redux';
 
 import PlayerInput from './src/components/PlayerInput/PlayerInput';
 import PlayerList from './src/components/PlayerList/PlayerList';
 import PlayerDetail from './src/components/PlayerDetail/PlayerDetail';
+import { addPlayer, deletePlayer, selectPlayer, deselectPlayer } from './src/store/actions/index';
 
 import TrashList from './src/components/TrashList/TrashList';
 import TrashDetail from './src/components/TrashDetail/TrashDetail';
 
 import playerImage from './assets/images/players/player1.png';
 
-export default class App extends React.Component {
-  state = {
-    playerName: '',
-    players: [],
-    trashPlural: [], // TODO maybe don't need this because user is not adding trash items to app
-    selectedPlayer: null,
-    selectedTrash: null // TODO maybe don't need this because user is not adding trash items to app
-  }
+class App extends React.Component {
 
-  playerNameChangedHandler = (value) => {
-    this.setState({
-      knowYouTrash: '',
-      playAGame: ''
-    });
-  };
+  // playerNameChangedHandler = (value) => {
+  //   this.setState({
+  //     knowYouTrash: '',
+  //     playAGame: ''
+  //   });
+  // };
 
   playerAddedHandler = playerName => {
-    this.setState(prevState => {
-        return {
-          // add a new element and return a new array immutably
-          players: prevState.players.concat({
-            key: Math.random(),
-            name: playerName,
-            image: playerImage
-          })
-        };
-    });
+    this.props.onAddPlayer(playerName);
   };
 
   playerDeletedHandler = () => {
-    this.setState(prevState => {
-      return {
-        players: prevState.players.filter(player => {
-          // selectedPlayer is stored in the state of the app container so here we can say that the new players are simply the old players filtered by a player where the key is not equal to the key of the selectedPlayer; these keys should not be equal, if they are, that's the one I wanna filter out and delete
-          return player.key !== prevState.selectedPlayer.key;
-        }),
-        selectedPlayer: null // this is to reset the modal
-      };
-    });
-  };
-
-  playerSelectedHandler = key => {
-    this.setState(prevState => {
-      return {
-        selectedPlayer: prevState.players.find(player => {
-          // return true if it's object you're looking for, false if it's not the object;
-          // return true if the key of the player we're running the function on right now is equal to the key I received in playerSelectedHandler... because then it's the key I'm interested in
-          return player.key === key;
-        })
-      };
-    });
-  };
-
-  trashSelectedHandler = key => {
-    this.setState(prevState => {
-      return {
-        selectedTrash: prevState.trashPlural.find(trashSingular => {
-          // return true if it's object you're looking for, false if it's not
-          return trashSingular.key === key;
-        })
-      };
-    });
+    this.props.onDeletePlayer();
   };
 
   modalClosedHandler = () => {
-    this.setState({
-      selectedPlayer: null // will ensure that I can close the modal
-    });
+    this.props.onDeselectPlayer();
   };
+
+  playerSelectedHandler = key => {
+    this.props.onSelectPlayer(key);
+  };
+
+  // trashSelectedHandler = key => {
+  //   this.setState(prevState => {
+  //     return {
+  //       selectedTrash: prevState.trashPlural.find(trashSingular => {
+  //         // return true if it's object you're looking for, false if it's not
+  //         return trashSingular.key === key;
+  //       })
+  //     };
+  //   });
+  // };
+
 
 
   render() {
@@ -107,22 +76,24 @@ export default class App extends React.Component {
         style={{width: 300, height: 300}}
         source={require('./assets/images/garbage_truck.png')} />
 
-        <PlayerDetail selectedPlayer={this.state.selectedPlayer} onItemDeleted={this.playerDeletedHandler} onModalClosed={this.modalClosedHandler}
+        <PlayerDetail selectedPlayer={this.props.selectedPlayer} onItemDeleted={this.playerDeletedHandler} onModalClosed={this.modalClosedHandler}
         />
 
         <PlayerInput onPlayerAdded={this.playerAddedHandler}
         />
 
         <PlayerList
-        players={this.state.players} onItemSelected={this.playerSelectedHandler}
+        players={this.props.players} onItemSelected={this.playerSelectedHandler}
         />
 
-        <TrashList trash={this.state.trashPlural}
-        onItemSelected={this.trashSelectedHandler}
-        />
-
-        <TrashDetail selectedTrash={this.state.selectedTrash}
-        />
+        {/*
+        // <TrashList trash={this.state.trashPlural}
+        // onItemSelected={this.trashSelectedHandler}
+        // />
+        //
+        // <TrashDetail selectedTrash={this.state.selectedTrash}
+        // />
+        */}
 
       </View>
     );
@@ -148,3 +119,21 @@ const styles = StyleSheet.create({
     fontWeight: '800'
   }
 });
+
+const mapStateToProps = state => {
+  return {
+    players: state.players.players,
+    selectedPlayer: state.players.selectedPlayer
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddPlayer: (name) => dispatch(addPlayer(name)),
+    onDeletePlayer: () => dispatch(deletePlayer()),
+    onSelectPlayer: (key) => dispatch(selectPlayer(key)),
+    onDeselectPlayer: () => dispatch(deselectPlayer())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
