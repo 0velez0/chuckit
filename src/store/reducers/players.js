@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
     case SELECT_PLAYER:
       return {
         ...state,
-        selectedPlayer: state.player.find(player => {
+        selectedPlayer: state.players.find(player => {
           return player.key === action.playerKey;
         })
       };
