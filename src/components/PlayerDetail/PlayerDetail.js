@@ -6,10 +6,11 @@ import { Modal,
          Image,
          Text,
          Button,
-         StyleSheet
+         StyleSheet,
+         TouchableOpacity
         } from 'react-native';
 
-
+import Icon from 'react-native-vector-icons/Ionicons'
 // render selectedPlayer.playerImage and selectedPlayer.playerName if it has values
 const playerDetail = props => {
   let modalContent = null;
@@ -28,7 +29,11 @@ const playerDetail = props => {
         <View style={styles.modalContainer}>
             {modalContent}
           <View>
-            <Button title="Delete" color="red" onPress={props.onItemDeleted}/>
+            <TouchableOpacity onPress={props.onItemDeleted}>
+              <View style={styles.deleteButton}>
+                <Icon size={30} name="ios-trash" color="red"/>
+              </View>
+            </TouchableOpacity>
             <Button title="Close" onPress={props.onModalClosed}/>
           </View>
         </View>
@@ -48,6 +53,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 28
+  },
+  deleteButton: {
+    alignItems: "center"
   }
 });
 

@@ -23,6 +23,7 @@ class App extends React.Component {
 
   playerAddedHandler = playerName => {
     this.props.onAddPlayer(playerName);
+    console.log('hey! a player was added!!!');
   };
 
   playerDeletedHandler = () => {
@@ -85,15 +86,6 @@ class App extends React.Component {
         <PlayerList
         players={this.props.players} onItemSelected={this.playerSelectedHandler}
         />
-
-        {/*
-        // <TrashList trash={this.state.trashPlural}
-        // onItemSelected={this.trashSelectedHandler}
-        // />
-        //
-        // <TrashDetail selectedTrash={this.state.selectedTrash}
-        // />
-        */}
 
       </View>
     );
