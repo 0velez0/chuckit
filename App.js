@@ -11,125 +11,203 @@ import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 // import Icon from 'react-native-vector-icons/Ionicons'
 //
 // import playerImage from './assets/images/players/player2.png';
-
-const trashSamples = [
-  {
-    name: 'can',
-    image: 'can_jpg',
-    category: 'recycling'
-  },
-  {
-    name: 'eggshell',
-    image: 'egg_jpg',
-    category: 'food_waste'
-  },
-  {
-    name: 'lid',
-    image: 'lid_jpg',
-    category: 'trash'
-  }
-];
-
-let randomTrash = trashSamples[Math.floor(Math.random() * trashSamples.length)]
-
+import can from './assets/images/trash/can.png';
+import meat from './assets/images/trash/meat.png';
+import lightbulb from './assets/images/trash/lightbulb.png';
+import balloons from './assets/images/trash/balloons.png';
+import poop from './assets/images/trash/poop.png';
+import log from './assets/images/trash/log.png';
+import waterbottle from './assets/images/trash/waterbottle.png';
+import knifeandfork from './assets/images/trash/knifeandfork.png';
+import milkcarton from './assets/images/trash/milkcarton.png';
+import crab from './assets/images/trash/crab.png';
 
 class App extends React.Component {
 
-  state = {
-    pickingScreen: true, // this one should be 'true' to start with because it's the first screen we see
-    successScreen: false,
-    failureScreen: false,
-    randomTrash: randomTrash //TODO test to see if it's random
-  }
+  constructor() {
+    super();
 
-  checkTrash(bin) {
-    if (this.state.randomTrash.category === bin) {
-      this.setState({successScreen: true });
-    } else {
-      this.setState({failureScreen: true }),
-      this.setState({pickingScreen: false })
+    this.state = {
+      successDisplay: false,
+      failureDisplay: false,
+      trash: null
     }
   }
 
-  // picking screen
-  _showIsPicking() {
-    if (this.state.pickingScreen) {
-      return(
-        <Text> we are picking! </Text>
-      )
+  randomTrashGenerator = () => {
+    const trashSamples = [
+      {
+        name: 'can',
+        image: can,
+        category: 'recycling'
+      },
+      {
+        name: 'meat',
+        image: meat,
+        category: 'food_waste'
+      },
+      {
+        name: 'lightbulb',
+        image: lightbulb,
+        category: 'landfill'
+      },
+      {
+        name: 'balloons',
+        image: balloons,
+        category: 'landfill'
+      },
+      {
+        name: 'poop',
+        image: poop,
+        category: 'landfill'
+      },
+      {
+        name: 'log',
+        image: log,
+        category: 'food_waste'
+      },
+      {
+        name: 'waterbottle',
+        image: waterbottle,
+        category: 'recycling'
+      },
+      {
+        name: 'crab',
+        image: crab,
+        category: 'food_waste'
+      },
+      {
+        name: 'knifeandfork',
+        image: knifeandfork,
+        category: 'trash'
+      },
+      {
+        name: 'milkcarton',
+        image: milkcarton,
+        category: 'recycling'
+      }
+    ];
+
+    console.log(trashSamples);
+
+    let randomTrashPicked = trashSamples[Math.floor(Math.random() * trashSamples.length)]
+
+    console.log(randomTrashPicked);
+    this.setState({
+      trash: randomTrashPicked,
+      successDisplay: false,
+      failureDisplay: false
+    });
+  }
+
+  checkBinChoice = (bin) => {
+    console.log('we are inside the checkBinChoice function');
+    console.log(bin);
+    if (this.state.trash.category === bin) {
+      this.setState({successDisplay: true, failureDisplay: false })
+      // then get it to cycle to the next image somehow!
+    } else {
+      this.setState({failureDisplay: true , successDisplay: false })
+
     }
   }
 
   _showSuccess() {
-    if (this.state.success) {
+    if (this.state.successDisplay) {
       return(
-        <Text> success! </Text>
+        <Text> You did it correctly! </Text>
       )
     }
   }
 
   _showFailure() {
-    if (this.state.failure) {
+    if (this.state.failureDisplay) {
       return(
-        <Text> failure! </Text>
+        <Text> No that is wrong! </Text>
       )
     }
   }
 
-  onSortLandfill() {
-    console.log("we are inside onSortLandfill");
+  _showRandomTrash() {
+    if (this.state.randomTrash) {
+      return(
+        <View>
+          {this.randomTrashGenerator()}
+        </View>
+      )
+    }
   }
 
-  onSortRecycling() {
-    console.log("we are inside onSortRecycling");
+  // onSortLandfill() {
+  //   console.log("we are inside onSortLandfill");
+  // }
+  //
+  // onSortRecycling() {
+  //   console.log("we are inside onSortRecycling");
+  // }
+  //
+  // onSortFoodWaste() {
+  //   console.log("we are inside onSortFoodWaste");
+  // }
+
+  componentDidMount() {
+    this.randomTrashGenerator();
   }
-
-  onSortFoodWaste() {
-    console.log("we are inside onSortFoodWaste");
-  }
-
-
 
   render() {
-
-    const randomTrash = trashSamples[Math.floor(Math.random() * trashSamples.length)]
+    if (this.state.trash === null) {
+      return (<Text>Loading...</Text>)
+    }
 
     const listofCategories = [
       'recycling',
       'compost',
       'trash'
     ]
+    console.log(listofCategories);
 
-    const pickerScreen = this._showIsPicking();
-    const successScreen = this._showSuccess();
-    const failureScreen = this._showFailure();
+    const successDisplay = this._showSuccess();
+    const failureDisplay = this._showFailure();
 
     return (
       <View style={styles.container}>
-        <Text>Sort the trash</Text>
-        {pickerScreen}
-        {successScreen}
-        {failureScreen}
+
+        <Text style={styles.logoText}>chuck it!</Text>
+
+        <Text style={styles.gameInstructions}>sort the trash!</Text>
+
+        {successDisplay}
+        {failureDisplay}
+        <View>
+          <Image source={this.state.trash.image}/>
+        </View>
 
         <Button
-        onPress={this.onSortRecycling}
+        onPress={ () => {this.checkBinChoice('recycling')} }
         title="Recycling"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
+        color="blue"
+        accessibilityLabel="Learn more about this blue button"
         />
 
         <Button
-        onPress={this.onSortFoodWaste}
+        onPress={ () => {this.checkBinChoice('food_waste')} }
         title="Food Waste"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
+        color="green"
+        accessibilityLabel="Learn more about this green button"
         />
 
         <Button
-        onPress={this.onSortLandfill}
+        onPress={ () => {this.checkBinChoice('landfill')} }
         title="Landfill"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
+        color="brown"
+        accessibilityLabel="Learn more about this brown button"
+        />
+
+        <Button
+        onPress={ () => {this.randomTrashGenerator()} }
+        title="PLAY AGAIN!"
+        color="pink"
+        accessibilityLabel="Learn more about this pink button"
         />
       </View>
     );
@@ -153,8 +231,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Futura',
     fontSize: 80,
     fontWeight: '800'
+  },
+  gameInstructions: {
+    fontFamily: 'Futura',
+    fontSize: 30,
+    fontWeight: '500'
   }
 });
-
 
 export default App;
