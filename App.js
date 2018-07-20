@@ -1,17 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 
-import PlayerInput from './src/components/PlayerInput/PlayerInput';
-import PlayerList from './src/components/PlayerList/PlayerList';
-import PlayerDetail from './src/components/PlayerDetail/PlayerDetail';
-// import { addPlayer, deletePlayer, selectPlayer, deselectPlayer } from './src/store/actions/index';
+import PlayerInput from './src/components/PlayerInput';
+import PlayerList from './src/components/PlayerList';
+import PlayerDetail from './src/components/PlayerDetail';
+import ListItem from './src/components/ListItem';
+import TrashList from './src/components/TrashList';
+import TrashDetail from './src/components/TrashDetail';
 
-import TrashList from './src/components/TrashList/TrashList';
-import TrashDetail from './src/components/TrashDetail/TrashDetail';
+import Icon from 'react-native-vector-icons/Ionicons'
 
-import playerImage from './assets/images/players/player1.png';
+import playerImage from './assets/images/players/player2.png';
 
 class App extends React.Component {
+  // constructor (
+  //
+  // )
 
   state = {
     playerName: '',
@@ -82,7 +86,45 @@ class App extends React.Component {
   //   });
   // };
 
+  const querySamples = [
+      {
+        description: 'can',
+        image: 'can_jpg',
+        category: 'recycling'
+      },
+      {
+        description: 'eggshell',
+        image: 'egg_jpg',
+        category: 'compost'
+      },
+      {
+        description: 'lid',
+        image: 'lid_jpg',
+        category: 'trash'
+      }
+    ];
+
+
+
+  const listofCategories = [
+    'recycling',
+    'compost',
+    'trash'
+  ]
+
+
+  // given list of questions, give me a random one
+
+  // given a random question, give me options for categories
+
+  // given a question from list and category string, is that the right answer
+
+  // shuffle a list of questions in constructor
+
+
   render() {
+
+
     return (
       <View style={styles.container}>
         <Text style={styles.logoText}>
@@ -116,12 +158,13 @@ class App extends React.Component {
         players={this.state.players} onItemSelected={this.playerSelectedHandler}
         />
 
-       <TrashList trash={this.state.trashPlural}
+        <GamePlay />
+       {/*<TrashList trash={this.state.trashPlural}
        onItemSelected={this.trashSelectedHandler}
        />
 
        <TrashDetail selectedTrash={this.state.selectedTrash}
-       />
+       />*/}
       </View>
     );
   }
@@ -163,4 +206,5 @@ const styles = StyleSheet.create({
 //   };
 // };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

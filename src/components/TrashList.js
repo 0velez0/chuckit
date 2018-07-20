@@ -1,17 +1,16 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 
-import ListItem from '../ListItem/ListItem';
+import ListItem from './ListItem';
 
-const playerList = props => {
+const trashList = props => {
   return (
     <FlatList
       style={styles.listContainer}
-      data={props.players}
+      data={props.trashPlural}
       renderItem={(info) => (
         <ListItem
-          playerName={info.item.name}
-          playerImage={info.item.image}
+          trashName={info.item.value}
           onItemPressed={() => props.onItemSelected(info.item.key)}
         />
       )}
@@ -25,4 +24,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default playerList;
+export default trashList;
