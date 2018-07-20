@@ -1,170 +1,136 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 
-import PlayerInput from './src/components/PlayerInput';
-import PlayerList from './src/components/PlayerList';
-import PlayerDetail from './src/components/PlayerDetail';
-import ListItem from './src/components/ListItem';
-import TrashList from './src/components/TrashList';
-import TrashDetail from './src/components/TrashDetail';
+// import PlayerInput from './src/components/PlayerInput';
+// import PlayerList from './src/components/PlayerList';
+// import PlayerDetail from './src/components/PlayerDetail';
+// import ListItem from './src/components/ListItem';
+// import TrashList from './src/components/TrashList';
+// import TrashDetail from './src/components/TrashDetail';
+//
+// import Icon from 'react-native-vector-icons/Ionicons'
+//
+// import playerImage from './assets/images/players/player2.png';
 
-import Icon from 'react-native-vector-icons/Ionicons'
+const trashSamples = [
+  {
+    name: 'can',
+    image: 'can_jpg',
+    category: 'recycling'
+  },
+  {
+    name: 'eggshell',
+    image: 'egg_jpg',
+    category: 'food_waste'
+  },
+  {
+    name: 'lid',
+    image: 'lid_jpg',
+    category: 'trash'
+  }
+];
 
-import playerImage from './assets/images/players/player2.png';
+let randomTrash = trashSamples[Math.floor(Math.random() * trashSamples.length)]
+
 
 class App extends React.Component {
-  // constructor (
-  //
-  // )
 
   state = {
-    playerName: '',
-    players: [],
-    selectedPlayer: null
+    pickingScreen: true, // this one should be 'true' to start with because it's the first screen we see
+    successScreen: false,
+    failureScreen: false,
+    randomTrash: randomTrash //TODO test to see if it's random
   }
 
-  playerNameChangedHandler = (value) => {
-    this.setState({
-      knowYouTrash: '',
-      playAGame: ''
-    });
-  };
+  checkTrash(bin) {
+    if (this.state.randomTrash.category === bin) {
+      this.setState({successScreen: true });
+    } else {
+      this.setState({failureScreen: true }),
+      this.setState({pickingScreen: false })
+    }
+  }
 
-  playerAddedHandler = playerName => {
-    this.setState(prevState => {
-        return {
-          // add a new element and return a new array immutably
-          players: prevState.players.concat({
-            key: Math.random(),
-            name: playerName,
-            image: playerImage
-          })
-        };
-    });
-    console.log('Hey! A player was added!!!');
-  };
+  // picking screen
+  _showIsPicking() {
+    if (this.state.pickingScreen) {
+      return(
+        <Text> we are picking! </Text>
+      )
+    }
+  }
 
-  playerDeletedHandler = () => {
-    this.setState(prevState => {
-      return {
-        players: prevState.players.filter(player => {
-          // selectedPlayer is stored in the state of the app container so here we can say that the new players are simply the old players filtered by a player where the key is not equal to the key of the selectedPlayer; these keys should not be equal, if they are, that's the one I wanna filter out and delete
-          return player.key !== prevState.selectedPlayer.key;
-        }),
-        selectedPlayer: null // this is to reset the modal
-      };
-    });
-  };
+  _showSuccess() {
+    if (this.state.success) {
+      return(
+        <Text> success! </Text>
+      )
+    }
+  }
 
+  _showFailure() {
+    if (this.state.failure) {
+      return(
+        <Text> failure! </Text>
+      )
+    }
+  }
 
-  playerSelectedHandler = key => {
-    this.setState(prevState => {
-      return {
-        selectedPlayer: prevState.players.find(player => {
-          // return true if it's object you're looking for, false if it's not the object;
-          // return true if the key of the player we're running the function on right now is equal to the key I received in playerSelectedHandler... because then it's the key I'm interested in
-          return player.key === key;
-        })
-      };
-    });
-  };
+  onSortLandfill() {
+    console.log("we are inside onSortLandfill");
+  }
 
-  modalClosedHandler = () => {
-    this.setState({
-      selectedPlayer: null // this will ensure that I can close the modal
-    });
-  };
+  onSortRecycling() {
+    console.log("we are inside onSortRecycling");
+  }
 
-  // trashSelectedHandler = key => {
-  //   this.setState(prevState => {
-  //     return {
-  //       selectedTrash: prevState.trashPlural.find(trashSingular => {
-  //         // return true if it's object you're looking for, false if it's not
-  //         return trashSingular.key === key;
-  //       })
-  //     };
-  //   });
-  // };
+  onSortFoodWaste() {
+    console.log("we are inside onSortFoodWaste");
+  }
 
-  const querySamples = [
-      {
-        description: 'can',
-        image: 'can_jpg',
-        category: 'recycling'
-      },
-      {
-        description: 'eggshell',
-        image: 'egg_jpg',
-        category: 'compost'
-      },
-      {
-        description: 'lid',
-        image: 'lid_jpg',
-        category: 'trash'
-      }
-    ];
-
-
-
-  const listofCategories = [
-    'recycling',
-    'compost',
-    'trash'
-  ]
-
-
-  // given list of questions, give me a random one
-
-  // given a random question, give me options for categories
-
-  // given a question from list and category string, is that the right answer
-
-  // shuffle a list of questions in constructor
 
 
   render() {
 
+    const randomTrash = trashSamples[Math.floor(Math.random() * trashSamples.length)]
+
+    const listofCategories = [
+      'recycling',
+      'compost',
+      'trash'
+    ]
+
+    const pickerScreen = this._showIsPicking();
+    const successScreen = this._showSuccess();
+    const failureScreen = this._showFailure();
 
     return (
       <View style={styles.container}>
-        <Text style={styles.logoText}>
-          chuck it!
-        </Text>
-        <Text>save the earth!</Text>
-        <Text>sort your trash!</Text>
+        <Text>Sort the trash</Text>
+        {pickerScreen}
+        {successScreen}
+        {failureScreen}
 
         <Button
-        title="KNOW YOUR TRASH"
-        onknowYourTrashPress={this.knowYourTrash}
+        onPress={this.onSortRecycling}
+        title="Recycling"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
         />
 
         <Button
-        title="PLAY A GAME"
-        onPlayAGamePress={this.playAGame}
+        onPress={this.onSortFoodWaste}
+        title="Food Waste"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
         />
 
-        <Image
-        style={{width: 300, height: 300}}
-        source={require('./assets/images/garbage_truck.png')}
+        <Button
+        onPress={this.onSortLandfill}
+        title="Landfill"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
         />
-
-        <PlayerDetail selectedPlayer={this.state.selectedPlayer} onItemDeleted={this.playerDeletedHandler} onModalClosed={this.modalClosedHandler}
-        />
-
-        <PlayerInput onPlayerAdded={this.playerAddedHandler}
-        />
-
-        <PlayerList
-        players={this.state.players} onItemSelected={this.playerSelectedHandler}
-        />
-
-        <GamePlay />
-       {/*<TrashList trash={this.state.trashPlural}
-       onItemSelected={this.trashSelectedHandler}
-       />
-
-       <TrashDetail selectedTrash={this.state.selectedTrash}
-       />*/}
       </View>
     );
   }
@@ -190,21 +156,5 @@ const styles = StyleSheet.create({
   }
 });
 
-// const mapStateToProps = state => {
-//   return {
-//     players: state.players.players,
-//     selectedPlayer: state.players.selectedPlayer
-//   };
-// };
-//
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onAddPlayer: (name) => dispatch(addPlayer(name)),
-//     onDeletePlayer: () => dispatch(deletePlayer()),
-//     onSelectPlayer: (key) => dispatch(selectPlayer(key)),
-//     onDeselectPlayer: () => dispatch(deselectPlayer())
-//   };
-// };
 
-// export default connect(mapStateToProps, mapDispatchToProps)(App);
 export default App;
