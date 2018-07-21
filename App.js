@@ -105,17 +105,15 @@ class App extends React.Component {
     console.log(bin);
     if (this.state.trash.category === bin) {
       this.setState({successDisplay: true, failureDisplay: false })
-      // then get it to cycle to the next image somehow!
     } else {
       this.setState({failureDisplay: true , successDisplay: false })
-
     }
   }
 
   _showSuccess() {
     if (this.state.successDisplay) {
       return(
-        <Text> You did it correctly! </Text>
+        <Text> You did it correctly! PLAY AGAIN to try another!</Text>
       )
     }
   }
@@ -123,7 +121,7 @@ class App extends React.Component {
   _showFailure() {
     if (this.state.failureDisplay) {
       return(
-        <Text> No that is wrong! </Text>
+        <Text> No that is wrong! Try again! </Text>
       )
     }
   }
@@ -205,7 +203,7 @@ class App extends React.Component {
 
         <Button
         onPress={ () => {this.randomTrashGenerator()} }
-        title="PLAY AGAIN!"
+        title="PLAY AGAIN"
         color="pink"
         accessibilityLabel="Learn more about this pink button"
         />
