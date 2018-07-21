@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "ios": "0.0.1",
     "material-design-icons": "^3.0.1",
     "react": "16.4.1",
     "react-native": "0.56.0",

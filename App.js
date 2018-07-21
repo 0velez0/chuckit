@@ -22,6 +22,12 @@ import knifeandfork from './assets/images/trash/knifeandfork.png';
 import milkcarton from './assets/images/trash/milkcarton.png';
 import crab from './assets/images/trash/crab.png';
 
+// harder ones
+// componentDidMount setInterval
+// time can be a prop Today now
+// difference between elapsed time
+// set interval that forces a render
+
 class App extends React.Component {
 
   constructor() {
@@ -30,7 +36,9 @@ class App extends React.Component {
     this.state = {
       successDisplay: false,
       failureDisplay: false,
-      trash: null
+      trash: null,
+      score: 0,
+      time: 60
     }
   }
 
@@ -96,26 +104,39 @@ class App extends React.Component {
     this.setState({
       trash: randomTrashPicked,
       successDisplay: false,
-      failureDisplay: false
+      failureDisplay: false,
+      score: 0,
+      time: 60
     });
   }
 
   checkBinChoice = (bin) => {
     console.log('we are inside the checkBinChoice function');
-    console.log(bin);
+    // console.log(bin);
     if (this.state.trash.category === bin) {
-      this.setState({successDisplay: true, failureDisplay: false })
-      // then get it to cycle to the next image somehow!
+      this.setState({successDisplay: true, failureDisplay: false, score: this.state.score + 1 })
     } else {
-      this.setState({failureDisplay: true , successDisplay: false })
-
+      this.setState({failureDisplay: true , successDisplay: false, score: this.state.score })
     }
   }
+
+  // scoreKeeper() {
+  //   return(
+  //     <Text style={styles.scoreDisplay}> Score: {this.state.score} </Text>
+  //   )
+  // }
+
+  // scoreKeeper = () => {
+  //   if (this.successDisplay === true)
+  //   this.setState({
+  //     score: this.state.score +1
+  //   });
+  // }
 
   _showSuccess() {
     if (this.state.successDisplay) {
       return(
-        <Text> You did it correctly! </Text>
+        <Text style={styles.success}> You did it correctly!</Text>
       )
     }
   }
@@ -123,7 +144,7 @@ class App extends React.Component {
   _showFailure() {
     if (this.state.failureDisplay) {
       return(
-        <Text> No that is wrong! </Text>
+        <Text style={styles.failure}> No that is wrong! </Text>
       )
     }
   }
@@ -169,8 +190,13 @@ class App extends React.Component {
     const successDisplay = this._showSuccess();
     const failureDisplay = this._showFailure();
 
+
     return (
       <View style={styles.container}>
+        <View style={styles.topnav}>
+          <Text style={styles.scoreText}>score: {this.state.score}</Text>
+          <Text style={styles.timeText}>time: {this.state.time}</Text>
+        </View>
 
         <Text style={styles.logoText}>chuck it!</Text>
 
@@ -178,6 +204,7 @@ class App extends React.Component {
 
         {successDisplay}
         {failureDisplay}
+
         <View>
           <Image source={this.state.trash.image}/>
         </View>
@@ -185,21 +212,21 @@ class App extends React.Component {
         <Button
         onPress={ () => {this.checkBinChoice('recycling')} }
         title="Recycling"
-        color="blue"
+        color="black"
         accessibilityLabel="Learn more about this blue button"
         />
 
         <Button
         onPress={ () => {this.checkBinChoice('food_waste')} }
         title="Food Waste"
-        color="green"
+        color="black"
         accessibilityLabel="Learn more about this green button"
         />
 
         <Button
         onPress={ () => {this.checkBinChoice('landfill')} }
         title="Landfill"
-        color="brown"
+        color="black"
         accessibilityLabel="Learn more about this brown button"
         />
 
@@ -219,7 +246,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   textStyle: {
     width: 200,
@@ -236,6 +263,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Futura',
     fontSize: 30,
     fontWeight: '500'
+  },
+  topnav: {
+    flexDirection: "row",
+    fontSize: 20
+  },
+  scoreText: {
+    justifyContent: "flex-start"
+  },
+  timeText: {
+    justifyContent: "flex-end"
+  },
+  success: {
+    color: "blue"
+  },
+  failure: {
+    color: "red"
   }
 });
 
