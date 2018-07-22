@@ -6,7 +6,8 @@ import {
   TextInput,
   Button,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableHighlight
 } from "react-native";
 
 // import PlayerInput from './src/components/PlayerInput';
@@ -16,7 +17,7 @@ import {
 // import TrashList from './src/components/TrashList';
 // import TrashDetail from './src/components/TrashDetail';
 //
-// import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from "react-native-vector-icons/Ionicons";
 //
 // import playerImage from './assets/images/players/player2.png';
 import can from "./assets/images/trash/can.png";
@@ -29,6 +30,9 @@ import waterbottle from "./assets/images/trash/waterbottle.png";
 import knifeandfork from "./assets/images/trash/knifeandfork.png";
 import milkcarton from "./assets/images/trash/milkcarton.png";
 import crab from "./assets/images/trash/crab.png";
+import landfillBin from "./assets/images/bins/garbage-can-bnw.png";
+import recyclingBin from "./assets/images/bins/recycling-bnw.png";
+import compostBin from "./assets/images/bins/swirl-leaves-bnw.png";
 
 class App extends React.Component {
   constructor() {
@@ -38,7 +42,7 @@ class App extends React.Component {
       failureMessage: false,
       trash: null,
       score: 0,
-      time: 60,
+      time: 5,
       isPlaying: false
       // round: null,
       // paused: false,
@@ -97,7 +101,7 @@ class App extends React.Component {
       {
         name: "meat",
         image: meat,
-        category: "food_waste"
+        category: "compost"
       },
       {
         name: "lightbulb",
@@ -117,7 +121,7 @@ class App extends React.Component {
       {
         name: "log",
         image: log,
-        category: "food_waste"
+        category: "compost"
       },
       {
         name: "waterbottle",
@@ -127,7 +131,7 @@ class App extends React.Component {
       {
         name: "crab",
         image: crab,
-        category: "food_waste"
+        category: "compost"
       },
       {
         name: "knifeandfork",
@@ -208,48 +212,47 @@ class App extends React.Component {
 
     return (
       <View>
-        {successMessage}
-        {failureMessage}
+        <Text style={styles.successMsg}>{successMessage}</Text>
+        <Text style={styles.failureMsg}>{failureMessage}</Text>
 
-        <View>
+        <View style={styles.trashImage}>
           <Image source={this.state.trash.image} />
         </View>
 
-        <Button
-          onPress={() => {
-            this.checkBinChoice("recycling");
-          }}
-          title="Recycling"
-          color="black"
-          accessibilityLabel="Learn more about this blue button"
-        />
+        <View style={styles.bins}>
+          <TouchableOpacity
+            onPress={() => {
+              this.checkBinChoice("recycling");
+            }}
+          >
+            <Image
+              source={recyclingBin}
+              style={{ maxWidth: 70, maxHeight: 70 }}
+            />
+          </TouchableOpacity>
 
-        <Button
-          onPress={() => {
-            this.checkBinChoice("food_waste");
-          }}
-          title="Food Waste"
-          color="black"
-          accessibilityLabel="Learn more about this green button"
-        />
+          <TouchableOpacity
+            onPress={() => {
+              this.checkBinChoice("landfill");
+            }}
+          >
+            <Image
+              source={landfillBin}
+              style={{ maxWidth: 70, maxHeight: 70 }}
+            />
+          </TouchableOpacity>
 
-        <Button
-          onPress={() => {
-            this.checkBinChoice("landfill");
-          }}
-          title="Landfill"
-          color="black"
-          accessibilityLabel="Learn more about this brown button"
-        />
-
-        <Button
-          onPress={() => {
-            this.randomTrashGenerator();
-          }}
-          title="MORE TRASH NOW!"
-          color="pink"
-          accessibilityLabel="Learn more about this pink button"
-        />
+          <TouchableOpacity
+            onPress={() => {
+              this.checkBinChoice("compost");
+            }}
+          >
+            <Image
+              source={compostBin}
+              style={{ maxWidth: 70, maxHeight: 70 }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -259,23 +262,24 @@ class App extends React.Component {
       return <Text>Loading...</Text>;
     }
 
-    const listofCategories = ["recycling", "compost", "trash"];
-    console.log(listofCategories);
-
     return (
       <View style={styles.container}>
         <View style={styles.topnav}>
-          <Text style={styles.scoreText}>SCORE: {this.state.score} points</Text>
+          <Text style={styles.topNavButtons}>
+            SCORE: {this.state.score} points
+          </Text>
 
-          <Text style={styles.timeText}>
+          <Text style={styles.topNavButtons}>
             TIME LEFT: {this.state.time} seconds
           </Text>
 
-          <View style={styles.pauseStart}>
+          <View>
             <TouchableOpacity
               onPress={this.state.isPlaying ? this.stopTimer : this.startTimer}
             >
-              <Text>{this.state.isPlaying ? "PAUSE" : "START"}</Text>
+              <Text style={styles.pauseStarttext}>
+                {this.state.isPlaying ? "PAUSE" : "PLAY"}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -290,14 +294,16 @@ class App extends React.Component {
           this._activeGamePlay()
         )}
 
-        <Button
-          onPress={() => {
-            this.newRound();
-          }}
-          title="PLAY ANOTHER ROUND!"
-          color="green"
-          accessibilityLabel="Learn more about this green button"
-        />
+        <View>
+          <TouchableOpacity
+            style={styles.newRoundButton}
+            onPress={() => {
+              this.newRound();
+            }}
+          >
+            <Text style={styles.newRoundButtonText}> PLAY ANOTHER ROUND! </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -305,46 +311,109 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    fontFamily: "Futura",
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
   },
-  textStyle: {
-    width: 200,
-    height: 100,
-    borderColor: "black",
-    borderWidth: 1
+  // textStyle: {
+  //   width: 200,
+  //   height: 100,
+  //   borderColor: "black",
+  //   borderWidth: 1
+  // },
+  topnav: {
+    flexDirection: "row",
+    // fontSize: 40,
+    height: 55,
+    paddingTop: 15
+    // backgroundColor: "#989292",
+    // alignItems: "center",
+    // justifyContent: "center"
+    // textAlign: "center"
+  },
+  topNavButtons: {
+    fontFamily: "Futura",
+    // flex: 1,
+    backgroundColor: "#e2e2e4",
+    textAlign: "center",
+    // width: 95,
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10
   },
   logoText: {
     fontFamily: "Futura",
     fontSize: 80,
-    fontWeight: "800"
+    fontWeight: "800",
+    backgroundColor: "#fafaff"
   },
   gameInstructions: {
     fontFamily: "Futura",
     fontSize: 30,
-    fontWeight: "500"
-  },
-  topnav: {
-    flexDirection: "row",
-    fontSize: 20
-  },
-  scoreText: {
+    fontWeight: "500",
     justifyContent: "flex-start",
-    paddingRight: 50
+    backgroundColor: "#e2e2e4"
   },
-  timeText: {
-    justifyContent: "flex-end"
+  successMsg: {
+    textAlign: "center"
   },
-  pauseStart: {
-    paddingLeft: 20
+  failureMsg: {
+    textAlign: "center"
+  },
+  // scoreText: {
+  //   // fontFamily: "Futura"
+  //   // justifyContent: "flex-start",
+  //   // paddingRight: 30
+  // },
+  // timeLeftText: {
+  //   // fontFamily: "Futura"
+  //   // justifyContent: "flex-end"
+  // },
+  // pauseStart: {
+  //   // paddingLeft: 18
+  // },
+  pauseStarttext: {
+    // backgroundColor: "#696464"
+    fontWeight: "700",
+    fontFamily: "Futura",
+    // flex: 1,
+    // backgroundColor: "#e2e2e4",
+    // textAlign: "center",
+    // width: 95,
+    justifyContent: "space-between",
+    // alignItems: "center",
+    padding: 10,
+    borderColor: "#111112",
+    borderWidth: 2
   },
   success: {
     color: "blue"
   },
   failure: {
     color: "red"
+  },
+  trashImage: {
+    alignItems: "center"
+  },
+  bins: {
+    marginTop: 5,
+    height: 90,
+    width: 300,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0"
+  },
+  // indivBins: {
+  // },
+  newRoundButton: {
+    backgroundColor: "#e4e4e2",
+    marginTop: 12
+  },
+  newRoundButtonText: {
+    fontFamily: "Futura"
   }
 });
 
