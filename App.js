@@ -1,5 +1,6 @@
 import React from "react";
-import GamePlay from "./src/components/GamePlay";
+// import GamePlay from "./src/components/GamePlay";
+import Homescreen from "./src/components/Homescreen";
 
 // // TODO: bind play/pause to not letting game play continue
 // // TODO: make failureMessage disappear?
@@ -12,6 +13,6 @@ import GamePlay from "./src/components/GamePlay";
 
 export default class App extends React.Component {
   render() {
-    return <GamePlay />;
+    return <Homescreen />;
   }
 }

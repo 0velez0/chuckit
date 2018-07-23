@@ -26,9 +26,6 @@ import landfillBin from "../../assets/images/bins/garbage-can-bnw.png";
 import recyclingBin from "../../assets/images/bins/recycling-bnw.png";
 import compostBin from "../../assets/images/bins/swirl-leaves-bnw.png";
 
-// TODO: bind play/pause to not letting game play continue
-// TODO: make failureMessage disappear?
-// TODO: move to new components
 // TODO: use Firebase, hide API key
 // TODO: add navigation
 // TODO: add players
