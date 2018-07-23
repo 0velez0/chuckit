@@ -34,6 +34,7 @@ import compostBin from "../../assets/images/bins/swirl-leaves-bnw.png";
 // TODO: add players
 // TODO: add Leaderboard screen
 // TODO put only score after game over
+// TODO pin topnav to top of screen when hit pause
 
 export default class GamePlay extends React.Component {
   constructor() {
@@ -200,6 +201,9 @@ export default class GamePlay extends React.Component {
   }
 
   _activeGamePlay() {
+    if (!this.state.isPlaying) {
+      return null;
+    }
     if (this.state.gameOver) {
       return <Text style={styles.gameOverMessage}>GAME OVER!</Text>;
     }
