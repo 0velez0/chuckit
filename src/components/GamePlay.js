@@ -45,18 +45,12 @@ export default class GamePlay extends React.Component {
       score: 0,
       time: 60,
       isPlaying: false
-      // round: null,
-      // paused: false,
-      // start: true,
-      // stop: false
     };
 
     this.countDown = this.countDown.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
   }
-
-  // const isPlaying = this.state.isPlaying;
 
   startTimer = () => {
     this.timer = setInterval(this.countDown, 1000);
@@ -71,10 +65,6 @@ export default class GamePlay extends React.Component {
       isPlaying: false
     });
   }
-
-  // componentWillUnmount() {
-  //   stopTimer();
-  // }
 
   countDown() {
     let { time } = this.state;
@@ -162,12 +152,12 @@ export default class GamePlay extends React.Component {
     this.setState({
       score: 0,
       time: 60,
-      round: null
+      gameOver: false
     });
     this.startTimer();
   };
 
-  roundIsOver = () => this.setState({ round: "GAME OVER!" });
+  roundIsOver = () => this.setState({ gameOver: true });
 
   checkBinChoice = bin => {
     if (this.state.trash.category === bin) {
@@ -210,6 +200,10 @@ export default class GamePlay extends React.Component {
   }
 
   _activeGamePlay() {
+    if (this.state.gameOver) {
+      return <Text style={styles.gameOverMessage}>GAME OVER!</Text>;
+    }
+
     const successMessage = this._showSuccess();
     const failureMessage = this._showFailure();
 
@@ -296,11 +290,7 @@ export default class GamePlay extends React.Component {
 
         <Text style={styles.logoText}>chuck it!</Text>
 
-        {this.state.round ? (
-          <Text style={styles.gameOverMessage}> {this.state.round} </Text>
-        ) : (
-          this._activeGamePlay()
-        )}
+        {this._activeGamePlay()}
 
         <View>
           <TouchableOpacity
