@@ -34,6 +34,15 @@ import landfillBin from "./assets/images/bins/garbage-can-bnw.png";
 import recyclingBin from "./assets/images/bins/recycling-bnw.png";
 import compostBin from "./assets/images/bins/swirl-leaves-bnw.png";
 
+// TODO: bind play/pause to not letting game play continue
+// TODO: make failureMessage disappear?
+// TODO: move to new components
+// TODO: use Firebase, hide API key
+// TODO: add navigation
+// TODO: add players
+// TODO: add Leaderboard screen
+// TODO put only score after game over
+
 class App extends React.Component {
   constructor() {
     super();
@@ -42,7 +51,7 @@ class App extends React.Component {
       failureMessage: false,
       trash: null,
       score: 0,
-      time: 5,
+      time: 60,
       isPlaying: false
       // round: null,
       // paused: false,
@@ -152,11 +161,7 @@ class App extends React.Component {
       trash: randomTrashPicked,
       failureMessage: false
     });
-    const disappearingMessage = setTimeout(
-      () => this.setState({ successMessage: false }),
-      1000
-    );
-    // clearTimeout(disappearingMessage);
+    setTimeout(() => this.setState({ successMessage: false }), 1000);
   };
 
   newRound = () => {
@@ -190,15 +195,18 @@ class App extends React.Component {
 
   _showSuccess() {
     if (this.state.successMessage) {
-      return <Text style={styles.success}> You did it correctly!</Text>;
+      return <Text style={styles.success}>CORRECT!</Text>;
     }
   }
 
   _showFailure() {
     if (this.state.failureMessage) {
-      return <Text style={styles.failure}> No that is wrong! </Text>;
+      return <Text style={styles.failure}>WRONG! TRY AGAIN!</Text>;
     }
+    // setTimeout(() => this.setState({ failureMessage: false }), 1000);
   }
+
+  _toggleSuccessOrFailure() {}
 
   _showRandomTrash() {
     if (this.state.randomTrash) {
@@ -212,11 +220,18 @@ class App extends React.Component {
 
     return (
       <View>
-        <Text style={styles.successMsg}>{successMessage}</Text>
-        <Text style={styles.failureMsg}>{failureMessage}</Text>
+        <Text style={styles.gameInstructions}>sort the trash!</Text>
 
         <View style={styles.trashImage}>
           <Image source={this.state.trash.image} />
+
+          <View style={styles.SuccessOrFailureMessages}>
+            {this._showSuccess() ? (
+              <Text>{successMessage}</Text>
+            ) : (
+              this._showFailure(<Text>{failureMessage}</Text>)
+            )}
+          </View>
         </View>
 
         <View style={styles.bins}>
@@ -286,10 +301,8 @@ class App extends React.Component {
 
         <Text style={styles.logoText}>chuck it!</Text>
 
-        <Text style={styles.gameInstructions}>sort the trash!</Text>
-
         {this.state.round ? (
-          <Text> {this.state.round} </Text>
+          <Text style={styles.gameOverMessage}> {this.state.round} </Text>
         ) : (
           this._activeGamePlay()
         )}
@@ -354,14 +367,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "500",
     justifyContent: "flex-start",
-    backgroundColor: "#e2e2e4"
-  },
-  successMsg: {
+    // backgroundColor: "#e2e2e4",
+    paddingLeft: 10,
+    paddingRight: 10,
     textAlign: "center"
   },
-  failureMsg: {
-    textAlign: "center"
-  },
+  // successMsg: {
+  //   textAlign: "center",
+  //   fontSize: 30
+  // },
+  // failureMsg: {
+  //   textAlign: "center",
+  //   fontSize: 30,
+  //   color: "green"
+  // },
   // scoreText: {
   //   // fontFamily: "Futura"
   //   // justifyContent: "flex-start",
@@ -388,11 +407,33 @@ const styles = StyleSheet.create({
     borderColor: "#111112",
     borderWidth: 2
   },
+  SuccessOrFailureMessages: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    // backgroundColor: "white",
+    // opacity: 0.3,
+    justifyContent: "center"
+  },
   success: {
-    color: "blue"
+    fontFamily: "Futura",
+    fontWeight: "900",
+    color: "green",
+    fontSize: 40,
+    justifyContent: "center",
+    textAlign: "center",
+    fontStyle: "italic"
   },
   failure: {
-    color: "red"
+    fontFamily: "Futura",
+    fontWeight: "700",
+    color: "red",
+    justifyContent: "center",
+    fontSize: 40,
+    textAlign: "center",
+    fontStyle: "italic"
   },
   trashImage: {
     alignItems: "center"
@@ -408,12 +449,19 @@ const styles = StyleSheet.create({
   },
   // indivBins: {
   // },
+  gameOverMessage: {
+    fontFamily: "Futura",
+    color: "red",
+    fontSize: 55,
+    backgroundColor: "white"
+  },
   newRoundButton: {
     backgroundColor: "#e4e4e2",
     marginTop: 12
   },
   newRoundButtonText: {
-    fontFamily: "Futura"
+    fontFamily: "Futura",
+    fontSize: 23
   }
 });
 
