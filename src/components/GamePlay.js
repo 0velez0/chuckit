@@ -152,9 +152,9 @@ export default class GamePlay extends React.Component {
 
     this.setState({
       trash: randomTrashPicked,
-      failureMessage: false
+      failureMessage: false,
+      successMessage: false
     });
-    setTimeout(() => this.setState({ successMessage: false }), 1000);
   };
 
   newRound = () => {
@@ -176,13 +176,16 @@ export default class GamePlay extends React.Component {
         failureMessage: false,
         score: this.state.score + 1
       });
-      this.randomTrashGenerator();
+
+      setTimeout(this.randomTrashGenerator, 1000);
     } else {
       this.setState({
         failureMessage: true,
         successMessage: false,
         score: this.state.score
       });
+
+      setTimeout(() => this.setState({ failureMessage: false }), 1000);
     }
   };
 
@@ -196,7 +199,6 @@ export default class GamePlay extends React.Component {
     if (this.state.failureMessage) {
       return <Text style={styles.failure}>WRONG! TRY AGAIN!</Text>;
     }
-    // setTimeout(() => this.setState({ failureMessage: false }), 1000);
   }
 
   _toggleSuccessOrFailure() {}
