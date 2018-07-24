@@ -26,13 +26,6 @@ import landfillBin from "../../assets/images/bins/garbage-can-bnw.png";
 import recyclingBin from "../../assets/images/bins/recycling-bnw.png";
 import compostBin from "../../assets/images/bins/swirl-leaves-bnw.png";
 
-// TODO: use Firebase, hide API key
-// TODO: add navigation
-// TODO: add players
-// TODO: add Leaderboard screen
-// TODO put only score after game over
-// TODO pin topnav to top of screen when hit pause
-
 export default class GamePlay extends React.Component {
   constructor() {
     super();
@@ -49,6 +42,12 @@ export default class GamePlay extends React.Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
   }
+
+  onPressLeaderboardHandler = () => {
+    this.props.navigator.push({
+      screen: "Leaderboard"
+    });
+  };
 
   startTimer = () => {
     this.timer = setInterval(this.countDown, 1000);
@@ -323,13 +322,19 @@ const styles = StyleSheet.create({
   //   borderWidth: 1
   // },
   topnav: {
+    position: "absolute",
+    top: 0,
+    flex: 1,
+    alignSelf: "stretch",
+    right: 0,
+    left: 0,
     flexDirection: "row",
     // fontSize: 40,
     height: 55,
-    paddingTop: 15
+    paddingTop: 15,
     // backgroundColor: "#989292",
-    // alignItems: "center",
-    // justifyContent: "center"
+    // alignItems: "center"
+    justifyContent: "center"
     // textAlign: "center"
   },
   topNavButtons: {
@@ -406,20 +411,22 @@ const styles = StyleSheet.create({
   success: {
     fontFamily: "Futura",
     fontWeight: "900",
-    color: "green",
-    fontSize: 40,
+    color: "white",
+    fontSize: 45,
     justifyContent: "center",
     textAlign: "center",
-    fontStyle: "italic"
+    fontStyle: "italic",
+    backgroundColor: "#3b9d4a95"
   },
   failure: {
     fontFamily: "Futura",
     fontWeight: "700",
-    color: "red",
+    color: "white",
     justifyContent: "center",
-    fontSize: 40,
+    fontSize: 45,
     textAlign: "center",
-    fontStyle: "italic"
+    fontStyle: "italic",
+    backgroundColor: "#f90b0b95"
   },
   trashImage: {
     alignItems: "center"

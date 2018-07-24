@@ -1,8 +1,17 @@
 import React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  Image,
+  TouchableOpacity
+} from "react-native";
+
+import garbageTruck from "../../assets/images/trash/garbage-truck.png";
 
 export default class Homescreen extends React.Component {
-  onPressHandler = () => {
+  onPressPlayGameHandler = () => {
     this.props.navigator.push({
       screen: "GamePlay"
     });
@@ -11,11 +20,16 @@ export default class Homescreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          onPress={this.onPressHandler}
-          title="Play Game"
-          color="#841584"
-        />
+        <Text style={styles.logoText}>chuck it!</Text>
+
+        <Image style={{ width: 290, height: 290 }} source={garbageTruck} />
+
+        <TouchableOpacity
+          onPress={this.onPressPlayGameHandler}
+          style={styles.playGameButton}
+        >
+          <Text> Play Game </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -28,5 +42,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+  logoText: {
+    fontFamily: "Futura",
+    fontSize: 85,
+    fontWeight: "800",
+    position: "absolute",
+    top: 0,
+    flex: 1,
+    right: 0,
+    left: 0,
+    textAlign: "center",
+    paddingTop: 15
+  },
+  playGameButton: {
+    borderWidth: 1,
+    padding: 20,
+    borderColor: "black",
+    backgroundColor: "#d5dfdc"
   }
+  // playGameText: {
+  //   fontFamily: "Futura",
+  //   fontSize: 10
+  // }
 });
