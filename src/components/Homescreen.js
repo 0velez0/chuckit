@@ -1,5 +1,5 @@
 import React from "react";
-// import firebase from "firebase";
+import firebase from "firebase";
 
 import {
   Text,
@@ -12,12 +12,33 @@ import {
 
 import garbageTruck from "../../assets/images/trash/garbage-truck.png";
 
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "<your-api-key>",
+  authDomain: "<your-auth-domain>",
+  databaseURL: "<your-database-url>",
+  storageBucket: "<your-storage-bucket>"
+};
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+
 export default class Homescreen extends React.Component {
   onPressPlayGameHandler = () => {
     this.props.navigator.push({
       screen: "GamePlay"
     });
   };
+
+  fetch('https://chuckit-a6727.firebaseio.com/', {
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    firstParam: 'name',
+    secondParam: 'value',
+  }),
+});
 
   render() {
     return (
