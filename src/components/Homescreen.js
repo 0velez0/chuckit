@@ -3,7 +3,9 @@ import { View, Button, StyleSheet } from "react-native";
 
 export default class Homescreen extends React.Component {
   onPressHandler = () => {
-    console.log("hello");
+    this.props.navigator.push({
+      screen: "GamePlay"
+    });
   };
 
   render() {
