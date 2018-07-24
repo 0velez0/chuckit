@@ -7,6 +7,8 @@ import Leaderboard from "./src/components/Leaderboard";
 
 import { Navigation } from "react-native-navigation";
 
+import * as firebase from "firebase";
+
 Navigation.registerComponent("Homescreen", () => Homescreen);
 Navigation.registerComponent("GamePlay", () => GamePlay);
 Navigation.registerComponent("Player", () => Player);
