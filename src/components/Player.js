@@ -21,9 +21,14 @@ export default class Player extends React.Component {
   // TODO I know I need to track state of score
 
   onPressPlayGameHandler = () => {
-    this.props.navigator.push({
-      screen: "GamePlay"
-    });
+    if (this.state.playerName === "") {
+      return alert("Oops, must enter a name!");
+    } else {
+      this.props.navigator.push({
+        screen: "GamePlay",
+        passProps: { playerName: this.state.playerName }
+      });
+    }
   };
 
   playerNameChangedHandler = value => {
@@ -33,18 +38,6 @@ export default class Player extends React.Component {
     });
   };
 
-  playerSubmitHandler = () => {
-    // Doing this because I don't want to allow user to add an empty playerName
-    if (this.state.playerName.trim() === "") {
-      return;
-    }
-
-    // lets you check the validity of the name inside the playerInput component
-    this.props.onPlayerAdded(this.state.playerName);
-  };
-
-  // put your name
-  // okay button with callback
   render() {
     return (
       <View style={styles.container}>
@@ -55,14 +48,6 @@ export default class Player extends React.Component {
           onChangeText={this.playerNameChangedHandler}
         />
 
-        <Button
-          title="Add"
-          style={styles.playerButton}
-          onPress={this.playerSubmitHandler}
-          // Above can be this instead:
-          // onPress={() => this.onPlayerAdded(this.state.playerName)}
-        />
-
         <View>
           <TouchableOpacity
             onPress={this.onPressPlayGameHandler}
@@ -71,8 +56,6 @@ export default class Player extends React.Component {
             <Text> PLAY GAME </Text>
           </TouchableOpacity>
         </View>
-
-        <GamePlay playerName={this.state.playerName} />
       </View>
     );
   }
