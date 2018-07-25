@@ -1,6 +1,8 @@
 import React from "react";
-
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+
+import firebase from "firebase";
+import { API_KEY, PROJECT_ID } from "react-native-dotenv";
 
 // import PlayerInput from './src/components/PlayerInput';
 // import PlayerList from './src/components/PlayerList';
@@ -34,7 +36,7 @@ export default class GamePlay extends React.Component {
       failureMessage: false,
       trash: null,
       score: 0,
-      time: 60,
+      time: 5,
       isPlaying: false
     };
 
@@ -42,12 +44,6 @@ export default class GamePlay extends React.Component {
     this.startTimer = this.startTimer.bind(this);
     this.stopTimer = this.stopTimer.bind(this);
   }
-
-  onPressLeaderboardHandler = () => {
-    this.props.navigator.push({
-      screen: "Leaderboard"
-    });
-  };
 
   startTimer = () => {
     this.timer = setInterval(this.countDown, 1000);
@@ -154,7 +150,36 @@ export default class GamePlay extends React.Component {
     this.startTimer();
   };
 
-  roundIsOver = () => this.setState({ gameOver: true });
+  roundIsOver = () => {
+    this.setState({
+      gameOver: true
+    });
+    const config = {
+      apiKey: API_KEY,
+      authDomain: "chuckit-a6727.firebaseapp.com",
+      databaseURL: "https://chuckit-a6727.firebaseio.com",
+      projectId: PROJECT_ID,
+      storageBucket: "chuckit-a6727.appspot.com",
+      messagingSenderId: "933419915503"
+    };
+    firebase.initializeApp(config);
+    console.log(firebase);
+    firebase
+      .database()
+      .ref("players")
+      .push({
+        name: "Ada",
+        score: this.state.score
+      })
+      .then(() => {
+        console.log("Saved player's score to firebase.");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  // write callback from player, callback will set state w new player name
 
   checkBinChoice = bin => {
     if (this.state.trash.category === bin) {
@@ -174,6 +199,12 @@ export default class GamePlay extends React.Component {
 
       setTimeout(() => this.setState({ failureMessage: false }), 1000);
     }
+  };
+
+  onPressLeaderboardHandler = () => {
+    this.props.navigator.push({
+      screen: "Leaderboard"
+    });
   };
 
   _showSuccess() {
@@ -197,11 +228,25 @@ export default class GamePlay extends React.Component {
   }
 
   _activeGamePlay() {
+    // Have we asked for player name yet?
+    // If not, display the Player component
+    // and pass a callback prop, to
+    // set the player name when they click "okay"
     if (!this.state.isPlaying) {
       return null;
     }
     if (this.state.gameOver) {
-      return <Text style={styles.gameOverMessage}>GAME OVER!</Text>;
+      return (
+        <View>
+          <Text style={styles.gameOverMessage}>GAME OVER!</Text>
+          <TouchableOpacity
+            style={styles.leaderboardButton}
+            onPress={this.onPressLeaderboardHandler}
+          >
+            <Text style={styles.leaderBoardText}> LEADERBOARD </Text>
+          </TouchableOpacity>
+        </View>
+      );
     }
 
     const successMessage = this._showSuccess();
@@ -455,5 +500,14 @@ const styles = StyleSheet.create({
   newRoundButtonText: {
     fontFamily: "Futura",
     fontSize: 23
+  },
+  leaderBoardButton: {
+    fontFamily: "Futura",
+    fontSize: 23
+  },
+  leaderBoardText: {
+    fontFamily: "Futura",
+    color: "blue",
+    fontSize: 35
   }
 });
