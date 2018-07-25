@@ -15,9 +15,9 @@ import {
 import garbageTruck from "../../assets/images/trash/garbage-truck.png";
 
 export default class Homescreen extends React.Component {
-  onPressPlayGameHandler = () => {
+  onPressStartPlayerHandler = () => {
     this.props.navigator.push({
-      screen: "GamePlay"
+      screen: "Player"
     });
   };
 
@@ -29,10 +29,10 @@ export default class Homescreen extends React.Component {
         <Image style={{ width: 290, height: 290 }} source={garbageTruck} />
 
         <TouchableOpacity
-          onPress={this.onPressPlayGameHandler}
-          style={styles.playGameButton}
+          onPress={this.onPressStartPlayerHandler}
+          style={styles.addPlayerButton}
         >
-          <Text> Play Game </Text>
+          <Text> ADD PLAYER </Text>
         </TouchableOpacity>
       </View>
     );
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingTop: 15
   },
-  playGameButton: {
+  addPlayerButton: {
     borderWidth: 1,
     padding: 20,
     borderColor: "black",

@@ -12,8 +12,8 @@ import * as firebase from "firebase";
 Navigation.registerComponent("Homescreen", () => Homescreen);
 Navigation.registerComponent("GamePlay", () => GamePlay);
 Navigation.registerComponent("Player", () => Player);
-Navigation.registerComponent("PlayerInput", () => PlayerInput);
-Navigation.registerComponent("PlayerDetail", () => PlayerDetail);
+// Navigation.registerComponent("PlayerInput", () => PlayerInput);
+// Navigation.registerComponent("PlayerDetail", () => PlayerDetail);
 Navigation.registerComponent("Leaderboard", () => Leaderboard);
 
 Navigation.startSingleScreenApp({

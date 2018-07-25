@@ -4,16 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import firebase from "firebase";
 import { API_KEY, PROJECT_ID } from "react-native-dotenv";
 
-// import PlayerInput from './src/components/PlayerInput';
-// import PlayerList from './src/components/PlayerList';
-// import PlayerDetail from './src/components/PlayerDetail';
-// import ListItem from './src/components/ListItem';
-// import TrashList from './src/components/TrashList';
-// import TrashDetail from './src/components/TrashDetail';
-//
 import Icon from "react-native-vector-icons/Ionicons";
-//
-// import playerImage from './assets/images/players/player2.png';
 import can from "../../assets/images/trash/can.png";
 import meat from "../../assets/images/trash/meat.png";
 import lightbulb from "../../assets/images/trash/lightbulb.png";
@@ -44,7 +35,7 @@ export default class GamePlay extends React.Component {
       failureMessage: false,
       trash: null,
       score: 0,
-      time: 5,
+      time: 10,
       isPlaying: false
     };
 
@@ -211,11 +202,11 @@ export default class GamePlay extends React.Component {
       .database()
       .ref("players")
       .push({
-        name: "Ada",
+        name: this.props.playerName,
         score: this.state.score
       })
       .then(() => {
-        console.log("Saved player's score to firebase.");
+        console.log("Saved player's score to firebase!");
       })
       .catch(error => {
         console.log(error);
@@ -452,27 +443,6 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     textAlign: "center"
   },
-  // successMsg: {
-  //   textAlign: "center",
-  //   fontSize: 30
-  // },
-  // failureMsg: {
-  //   textAlign: "center",
-  //   fontSize: 30,
-  //   color: "green"
-  // },
-  // scoreText: {
-  //   // fontFamily: "Futura"
-  //   // justifyContent: "flex-start",
-  //   // paddingRight: 30
-  // },
-  // timeLeftText: {
-  //   // fontFamily: "Futura"
-  //   // justifyContent: "flex-end"
-  // },
-  // pauseStart: {
-  //   // paddingLeft: 18
-  // },
   pauseStarttext: {
     // backgroundColor: "#696464"
     fontWeight: "700",
