@@ -8,7 +8,6 @@ import {
   Button
 } from "react-native";
 import Homescreen from "./Homescreen";
-import Leaderboard from ".Leaderboard";
 
 export default class Player extends React.Component {
   constructor() {
