@@ -24,6 +24,14 @@ import waterbottle from "../../assets/images/trash/waterbottle.png";
 import knifeandfork from "../../assets/images/trash/knifeandfork.png";
 import milkcarton from "../../assets/images/trash/milkcarton.png";
 import crab from "../../assets/images/trash/crab.png";
+import cherries from "../../assets/images/trash/cherries.png";
+import diamond from "../../assets/images/trash/diamond.png";
+import diaper from "../../assets/images/trash/diaper.png";
+import stethoscope from "../../assets/images/trash/stethoscope.png";
+import womenrazor from "../../assets/images/trash/womenrazor.png";
+import papertowel from "../../assets/images/trash/paper-towel.png";
+import leaves from "../../assets/images/trash/leaves.png";
+
 import landfillBin from "../../assets/images/bins/garbage-can-bnw.png";
 import recyclingBin from "../../assets/images/bins/recycling-bnw.png";
 import compostBin from "../../assets/images/bins/swirl-leaves-bnw.png";
@@ -127,6 +135,41 @@ export default class GamePlay extends React.Component {
         name: "milkcarton",
         image: milkcarton,
         category: "recycling"
+      },
+      {
+        name: "cherries",
+        image: cherries,
+        category: "compost"
+      },
+      {
+        name: "diamond",
+        image: diamond,
+        category: "compost"
+      },
+      {
+        name: "diaper",
+        image: diaper,
+        category: "landfill"
+      },
+      {
+        name: "papertowel",
+        image: papertowel,
+        category: "compost"
+      },
+      {
+        name: "stethoscope",
+        image: stethoscope,
+        category: "landfill"
+      },
+      {
+        name: "womenrazor",
+        image: womenrazor,
+        category: "landfill"
+      },
+      {
+        name: "leaves",
+        image: leaves,
+        category: "compost"
       }
     ];
 
@@ -232,6 +275,7 @@ export default class GamePlay extends React.Component {
     // If not, display the Player component
     // and pass a callback prop, to
     // set the player name when they click "okay"
+    // detect that i don't have a name for player and let player input
     if (!this.state.isPlaying) {
       return null;
     }
