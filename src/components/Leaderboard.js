@@ -38,19 +38,6 @@ export default class Leaderboard extends React.Component {
       });
   }
 
-  // renderLeaderBoard = () => {
-  //   const leaderBoardMap = this.state.leaderboard.map((player, index) => {
-  //     return (
-  //       <View key={index}>
-  //         <Text>{player.name}</Text>
-  //         <Text>{player.score}</Text>
-  //       </View>
-  //     );
-  //   });
-  //
-  //   return leaderBoardMap;
-  // };
-
   render() {
     console.log("This is the leaderboard!", this.state.leaderboard);
 

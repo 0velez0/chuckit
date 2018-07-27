@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase";
 import { API_KEY, PROJECT_ID } from "react-native-dotenv";
 import Player from "./Player";
+// import Button from "react-native-button";
 
 import {
   Text,
@@ -29,15 +30,17 @@ export default class Homescreen extends React.Component {
         <Image style={{ width: 290, height: 290 }} source={garbageTruck} />
 
         <TouchableOpacity
-          onPress={this.onPressStartPlayerHandler}
-          style={styles.addPlayerButton}
+        onPress={this.onPressStartPlayerHandler}
+        style={styles.addPlayerButton}
         >
-          <Text> ADD PLAYER </Text>
+        <Text style={styles.buttonText}> ADD PLAYER </Text>
         </TouchableOpacity>
+
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -60,10 +63,19 @@ const styles = StyleSheet.create({
     paddingTop: 15
   },
   addPlayerButton: {
+    marginTop: 35,
     borderWidth: 1,
     padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
     borderColor: "black",
-    backgroundColor: "#d5dfdc"
+    backgroundColor: "#090909",
+    borderRadius: 5
+  },
+  buttonText: {
+    fontFamily: "Futura",
+    color: "white",
+    fontSize: 25
   }
   // playGameText: {
   //   fontFamily: "Futura",

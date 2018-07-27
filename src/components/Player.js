@@ -41,8 +41,8 @@ export default class Player extends React.Component {
     return (
       <View style={styles.container}>
         <TextInput
-          style={styles.textStyle}
-          placeholder="player name"
+          style={styles.textInputStyle}
+          placeholder="An Awesome Player"
           value={this.state.playerName}
           onChangeText={this.playerNameChangedHandler}
         />
@@ -52,7 +52,7 @@ export default class Player extends React.Component {
             onPress={this.onPressPlayGameHandler}
             style={styles.playGameButton}
           >
-            <Text> PLAY GAME </Text>
+            <Text style={styles.playGameText}> PLAY GAME </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -65,13 +65,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingBottom: 300
   },
-  textStyle: {
+  textInputStyle: {
     width: 200,
     height: 100,
     borderColor: "black",
-    borderWidth: 1
+    borderWidth: 1,
+    textAlign: "center",
+    fontSize: 20
   },
   inputContainer: {
     // flex: 1,
@@ -85,5 +88,22 @@ const styles = StyleSheet.create({
     padding: 20,
     borderColor: "black",
     backgroundColor: "#d5dfdc"
+  },
+  playGameText: {
+    // marginTop: 20,
+    color: "white",
+    fontFamily: "Futura",
+    fontSize: 20,
+    textAlign: "center"
+  },
+  playGameButton: {
+    marginTop: 35,
+    borderWidth: 1,
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    borderColor: "black",
+    backgroundColor: "#090909",
+    borderRadius: 5
   }
 });

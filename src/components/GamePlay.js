@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 
 import firebase from "firebase";
-import { API_KEY, PROJECT_ID } from "react-native-dotenv";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import can from "../../assets/images/trash/can.png";
@@ -27,6 +26,8 @@ import landfillBin from "../../assets/images/bins/garbage-can-bnw.png";
 import recyclingBin from "../../assets/images/bins/recycling-bnw.png";
 import compostBin from "../../assets/images/bins/swirl-leaves-bnw.png";
 
+const GAME_TIME = 5;
+
 export default class GamePlay extends React.Component {
   constructor() {
     super();
@@ -35,7 +36,7 @@ export default class GamePlay extends React.Component {
       failureMessage: false,
       trash: null,
       score: 0,
-      time: 10,
+      time: GAME_TIME,
       isPlaying: false
     };
 
@@ -178,7 +179,7 @@ export default class GamePlay extends React.Component {
     clearInterval(this.timer);
     this.setState({
       score: 0,
-      time: 60,
+      time: GAME_TIME,
       gameOver: false
     });
     this.startTimer();
@@ -188,16 +189,7 @@ export default class GamePlay extends React.Component {
     this.setState({
       gameOver: true
     });
-    const config = {
-      apiKey: API_KEY,
-      authDomain: "chuckit-a6727.firebaseapp.com",
-      databaseURL: "https://chuckit-a6727.firebaseio.com",
-      projectId: PROJECT_ID,
-      storageBucket: "chuckit-a6727.appspot.com",
-      messagingSenderId: "933419915503"
-    };
-    firebase.initializeApp(config);
-    console.log(firebase);
+
     firebase
       .database()
       .ref("players")
@@ -272,7 +264,7 @@ export default class GamePlay extends React.Component {
     }
     if (this.state.gameOver) {
       return (
-        <View>
+        <View style={styles.gameOverLeaderboard}>
           <Text style={styles.gameOverMessage}>GAME OVER!</Text>
           <TouchableOpacity
             style={styles.leaderboardButton}
@@ -372,6 +364,7 @@ export default class GamePlay extends React.Component {
 
         {this._activeGamePlay()}
 
+        {!!this.state.gameOver &&
         <View>
           <TouchableOpacity
             style={styles.newRoundButton}
@@ -379,9 +372,10 @@ export default class GamePlay extends React.Component {
               this.newRound();
             }}
           >
-            <Text style={styles.newRoundButtonText}> PLAY ANOTHER ROUND! </Text>
+            <Text style={styles.newRoundButtonText}> PLAY ANOTHER ROUND </Text>
           </TouchableOpacity>
         </View>
+        }
       </View>
     );
   }
@@ -425,13 +419,16 @@ const styles = StyleSheet.create({
     // width: 95,
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10
+    padding: 10,
+    fontWeight: "bold"
   },
   logoText: {
+    position: "absolute",
+    top: 70,
     fontFamily: "Futura",
     fontSize: 80,
     fontWeight: "800",
-    backgroundColor: "#fafaff"
+    marginBottom: 50
   },
   gameInstructions: {
     fontFamily: "Futura",
@@ -456,6 +453,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "#111112",
     borderWidth: 2
+  },
+  gameOverLeaderboard: {
+    paddingTop: 0,
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 2,
   },
   SuccessOrFailureMessages: {
     position: "absolute",
@@ -491,7 +494,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   bins: {
-    marginTop: 5,
+    position: "absolute",
+    top: 280,
+    left: -20,
+    // right: 20,
+    marginTop: 30,
     height: 90,
     width: 300,
     flexDirection: "row",
@@ -504,24 +511,41 @@ const styles = StyleSheet.create({
   gameOverMessage: {
     fontFamily: "Futura",
     color: "red",
-    fontSize: 55,
-    backgroundColor: "white"
+    fontSize: 85,
+    backgroundColor: "white",
+    textAlign: "center",
+    marginTop: 20,
   },
   newRoundButton: {
-    backgroundColor: "#e4e4e2",
-    marginTop: 12
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    borderColor: "black",
+    backgroundColor: "#090909",
+    borderRadius: 5
   },
   newRoundButtonText: {
     fontFamily: "Futura",
-    fontSize: 23
+    fontSize: 23,
+    color: "white"
   },
   leaderBoardButton: {
     fontFamily: "Futura",
-    fontSize: 23
+    fontSize: 23,
   },
   leaderBoardText: {
     fontFamily: "Futura",
-    color: "blue",
-    fontSize: 35
+    color: "white",
+    fontSize: 23,
+    margin: 15,
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    backgroundColor: "#090909",
+    borderRadius: 5
   }
 });
