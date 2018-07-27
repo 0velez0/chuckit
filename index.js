@@ -8,6 +8,16 @@ import Leaderboard from "./src/components/Leaderboard";
 import { Navigation } from "react-native-navigation";
 
 import * as firebase from "firebase";
+import { API_KEY, PROJECT_ID } from "react-native-dotenv";
+const config = {
+  apiKey: API_KEY,
+  authDomain: "chuckit-a6727.firebaseapp.com",
+  databaseURL: "https://chuckit-a6727.firebaseio.com",
+  projectId: PROJECT_ID,
+  storageBucket: "chuckit-a6727.appspot.com",
+  messagingSenderId: "933419915503"
+};
+firebase.initializeApp(config);
 
 Navigation.registerComponent("Homescreen", () => Homescreen);
 Navigation.registerComponent("GamePlay", () => GamePlay);

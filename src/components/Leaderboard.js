@@ -56,13 +56,18 @@ export default class Leaderboard extends React.Component {
 
     return (
       <View style={styles.container}>
+        <Text style={styles.logoText}>chuck it!</Text>
         <Text style={styles.leaderboardTitle}>LEADERBOARD</Text>
+        <View style={styles.playerScore}>
+          <Text style={styles.playerTitle}>NAME</Text>
+          <Text style={styles.scoreTitle}>SCORE</Text>
+        </View>
         <FlatList
           data={this.state.leaderboard}
           renderItem={({ item }) => (
-            <View>
-              <Text>{item.name}</Text>
-              <Text>{item.score}</Text>
+            <View style={styles.playerScore}>
+              <Text style={styles.player}>{item.name}</Text>
+              <Text style={styles.score}>{item.score}</Text>
             </View>
           )}
         />
@@ -78,8 +83,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  logoText: {
+    fontFamily: "Futura",
+    fontSize: 80,
+    fontWeight: "800"
+  },
   leaderboardTitle: {
     fontFamily: "Futura",
-    fontSize: 35
+    fontSize: 45
+  },
+  playerScore: {
+    // flex: 1,
+    flexDirection: "row",
+    // alignSelf: "stretch",
+    justifyContent: "space-between"
+  },
+  player: {
+    fontFamily: "Futura",
+    justifyContent: "flex-start"
+  },
+  score: {
+    fontFamily: "Futura",
+    marginLeft: 80
+  },
+  playerTitle: {
+    fontFamily: "Futura",
+    fontWeight: "bold",
+    fontSize: 25,
+    justifyContent: "flex-start"
+  },
+  scoreTitle: {
+    fontFamily: "Futura",
+    fontWeight: "bold",
+    marginLeft: 30,
+    fontSize: 25
   }
 });
